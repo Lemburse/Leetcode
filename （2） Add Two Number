@@ -1,0 +1,114 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        int carry = 0;
+        ListNode result ;
+        ListNode last ;
+        ListNode l1current = l1;
+        ListNode l2current = l2;
+        int count = (l1current.val+l2current.val)%10;
+        result = new ListNode(count);// 首节点result
+        result.next = null;
+        last = result;
+        carry = (l1.val+l2.val)/10;
+        if (l1current.next == null ){// l1结束
+                if(l2current.next == null ){
+                    if(carry == 0) return result;
+                    else {
+                        result.next = new ListNode(carry);
+                        return result;
+                    }
+                }
+                else{
+                    while(l2current.next != null ){
+                        l2current = l2current.next;
+                        ListNode oldlast1 = last;
+                        last = new ListNode((l2current.val+carry)%10);
+                        oldlast1.next = last;
+                        carry = (l2current.val+carry)/10;
+                        // l2current = l2current.next;
+                    }
+                    if (carry == 1){
+                        ListNode oldlast3 = last;
+                        last = new ListNode(carry);
+                        oldlast3.next = last;
+                    }
+                    return result;
+                }
+            }
+            else if(l2current.next == null ){
+                while(l1current.next != null && l1current.next.val !=0){
+                        l1current = l1current.next;
+                        ListNode oldlast2 = last;
+                        last = new ListNode((l1current.val+carry)%10);
+                        oldlast2.next = last;
+                        carry = (l1current.val+carry)/10;
+                        // l1current = l1current.next;
+                }
+                if (carry == 1){
+                        ListNode oldlast3 = last;
+                        last = new ListNode(carry);
+                        oldlast3.next = last;
+                    }
+                return result;
+            }
+            else {
+                l1current = l1current.next;
+                l2current = l2current.next;
+            } 
+        while(true){
+            // result.ListNode((l1.val+l2.val+carrty)%10);
+            ListNode oldlast = last;
+            last = new ListNode((l1current.val+l2current.val+carry)%10);
+            oldlast.next = last;// 从尾部加入。
+            carry = (l1current.val+l2current.val+carry)/10;
+            
+            if (l1current.next == null ){// l1结束
+                if(l2current.next == null ){
+                    carry = (l1current.val+l2current.val+carry)/10;
+                    break;//l2也结束
+                }
+                else{
+                    while(l2current.next != null ){
+                        l2current = l2current.next;
+                        ListNode oldlast1 = last;
+                        last = new ListNode((l2current.val+carry)%10);
+                        oldlast1.next = last;
+                        carry = (l2current.val+carry)/10;
+                        // l2current = l2current.next;
+                    }
+                   break;
+                }
+            }
+            else if(l2current.next == null ){
+                while(l1current.next != null ){
+                        l1current = l1current.next;
+                        ListNode oldlast2 = last;
+                        last = new ListNode((l1current.val+carry)%10);
+                        oldlast2.next = last;
+                        carry = (l1current.val+carry)/10;
+                        // l1current = l1current.next;
+                }
+               break;
+            }
+            else {
+                l1current = l1current.next;
+                l2current = l2current.next;
+            } 
+            
+        }
+        if (carry == 1){
+                        ListNode oldlast3 = last;
+                        last = new ListNode(carry);
+                        oldlast3.next = last;
+                    }
+        return result;
+    }
+}

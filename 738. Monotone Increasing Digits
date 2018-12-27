@@ -1,0 +1,33 @@
+import math
+class Solution:
+    def monotoneIncreasingDigits(self, N):
+        """
+        :type N: int
+        :rtype: int
+        """
+        if N//10 ==0:
+            return N
+        copy = []
+        while N != 0:
+            copy.append(int(N%10))
+            N = N//10
+        i = len(copy) -1
+        #while True:
+        #    if copy[i] >copy[i-1]:
+        #       copy[i] = copy[i]-1
+        #       for j in range(0,i):
+        #           copy[j] = 9
+        #       break
+        #   i = i-1
+        #   if i == 0:
+        #       break
+        for i in range(len(copy)-1):
+            if copy[i] <copy[i+1]:
+                copy[i+1] = copy[i+1]-1
+                for j in range(i+1):
+                    copy[j] = 9
+        z = 0
+        # return copy[1]
+        for k in range(len(copy)):
+            z += copy[k]*math.pow(10,k)
+        return int(z)

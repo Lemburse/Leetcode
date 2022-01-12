@@ -1,0 +1,132 @@
+startx = start_x 		               # grating start x axis
+		starty = start_y 			                   # grating start y axis
+		for q in q_start..totalperiodx + q_start do
+
+			#totalperiody=(2*((q*periodx)*k_slop)/periody).to_i
+			for j in 0..totalperiody/2 - 1 do
+				gRAT1 = []
+				gRAT2 = []
+				y_d = j * periody;
+				gRAT_y = 0;
+				gRAT_x = 0;
+
+				sWGAin = [];
+				sWGBin = [];
+
+				for i in 0..10 do
+					gRAT_y = y_d ;
+					gRAT_x = ( - q * lambda * n_air * Math::sin(theta) - Math::sqrt( ( q * lambda * n_air * Math::sin(theta) )**2 - (neff**2 - (n_air**2) * Math::sin(theta) * Math::sin(theta) ) * ( (neff**2) * (gRAT_y**2) - (q**2) * (lambda**2) ) )) / (neff**2 - (n_air**2) * Math::sin(theta) * Math::sin(theta) );	
+					centrex = gRAT_x + startx;
+					centrey = gRAT_y + starty;
+					x=centrex
+					y=centrey+y_step*i
+					sWGAin.push( RBA::Point::new_xy( x, y ) );
+					x=centrex+periodx*fillfactor
+					y=centrey++y_step*i
+					sWGBin.push( RBA::Point::new_xy( x, y ) );	
+				end
+				pointlist =sWGAin+sWGBin.reverse
+				f_graing_l = RBA::Polygon::new_p( pointlist )
+				topcell.shapes( layer_id4 ).insert_polygon( f_graing_l )
+				y_d = 0;
+			end
+
+			for j in 0..totalperiody/2 - 1 do
+				gRAT1 = []
+				gRAT2 = []
+				y_d = - j * periody;
+				gRAT_y = 0;
+				gRAT_x = 0;
+				sWGAin = [];
+				sWGBin = [];
+
+				for i in 0..10 do
+					gRAT_y = y_d ;
+					gRAT_x = ( - q * lambda * n_air * Math::sin(theta) - Math::sqrt( ( q * lambda * n_air * Math::sin(theta) )**2 - (neff**2 - (n_air**2) * Math::sin(theta) * Math::sin(theta) ) * ( (neff**2) * (gRAT_y**2) - (q**2) * (lambda**2) ) )) / (neff**2 - (n_air**2) * Math::sin(theta) * Math::sin(theta) );
+
+					centrex = gRAT_x + startx;
+					centrey = gRAT_y + starty;
+					x=centrex
+					y=centrey+y_step*i
+					sWGAin.push( RBA::Point::new_xy( x, y ) );
+
+					x=centrex+periodx*fillfactor
+					y=centrey++y_step*i
+					sWGBin.push( RBA::Point::new_xy( x, y ) );
+				end
+				pointlist =sWGAin+sWGBin.reverse
+				f_graing_l = RBA::Polygon::new_p( pointlist )
+				topcell.shapes( layer_id4 ).insert_polygon( f_graing_l )
+				y_d = 0;
+			end			
+		end
+		#########################################################################################################################
+		# Right focusing grating
+		startx = start_x +wglen        # grating start x axis
+		starty = start_y 		                  # grating start y axis
+
+		if type == 1
+			totalperiodx = 14
+		elsif type == 2
+			totalperiodx = 13
+		elsif type == 3
+			totalperiodx = 13
+		end
+
+		for q in q_start..totalperiodx + q_start do
+			totalperiody=(2*((q*periodx)*k_slop)/periody).to_i
+			for j in 0..totalperiody/2 - 1 do
+				gRAT1 = []
+				gRAT2 = []
+				y_d = j * periody;
+				gRAT_y = 0;
+				gRAT_x = 0;
+				sWGAin = [];
+				sWGBin = [];
+
+				for i in 0..10 do
+					gRAT_y = y_d 
+					gRAT_x = ( q * lambda * n_air * Math::sin(theta) + Math::sqrt( ( q * lambda * n_air * Math::sin(theta) )**2 - (neff**2 - (n_air**2) * Math::sin(theta) * Math::sin(theta) ) * ( (neff**2) * (gRAT_y**2) - (q**2) * (lambda**2) ) )) / (neff**2 - (n_air**2) * Math::sin(theta) * Math::sin(theta) );
+					centrex = gRAT_x + startx;
+					centrey = gRAT_y + starty;
+					x=centrex
+					y=centrey+y_step*i
+					sWGAin.push( RBA::Point::new_xy( x, y ) );
+
+					x=centrex+periodx*fillfactor
+					y=centrey++y_step*i
+					sWGBin.push( RBA::Point::new_xy( x, y ) );
+				end
+				pointlist =sWGAin+sWGBin.reverse
+				f_graing_l = RBA::Polygon::new_p( pointlist )
+				topcell.shapes( layer_id4 ).insert_polygon( f_graing_l )    
+				y_d = 0;
+			end
+
+			for j in 0..totalperiody/2 - 1 do
+				gRAT1 = []
+				gRAT2 = []
+				y_d = - j * periody;
+				gRAT_y = 0;
+				gRAT_x = 0;
+				sWGAin = [];
+				sWGBin = [];
+
+				for i in 0..10 do
+					gRAT_y = y_d 
+					gRAT_x = ( q * lambda * n_air * Math::sin(theta) + Math::sqrt( ( q * lambda * n_air * Math::sin(theta) )**2 - (neff**2 - (n_air**2) * Math::sin(theta) * Math::sin(theta) ) * ( (neff**2) * (gRAT_y**2) - (q**2) * (lambda**2) ) )) / (neff**2 - (n_air**2) * Math::sin(theta) * Math::sin(theta) );
+					centrex = gRAT_x + startx;
+					centrey = gRAT_y + starty;
+					x=centrex
+					y=centrey+y_step*i
+					sWGAin.push( RBA::Point::new_xy( x, y ) );
+
+					x=centrex+periodx*fillfactor
+					y=centrey++y_step*i
+					sWGBin.push( RBA::Point::new_xy( x, y ) );
+
+				end
+				pointlist =sWGAin+sWGBin.reverse
+				f_graing_l = RBA::Polygon::new_p( pointlist )
+				topcell.shapes( layer_id4 ).insert_polygon( f_graing_l )    
+				y_d = 0;
